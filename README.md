@@ -44,7 +44,22 @@ docker run --rm `
   /app/bin/cars_check 460 /work/your_payload.json --filer YOUR_FILER_ID
 ```
 
-You'll get back a single JSON object on stdout ending with `"outcome": "Accepted"` (success) or `"outcome": "Rejected"` / `"ValidationFailed"` / `"SystemError"` / `"Stuck"` (something to look at).
+You'll get back a single JSON object on stdout. The top-level `outcome` field is a single string telling you what happened; the `stages` object breaks it down per pipeline stage so you can see exactly where it stopped (or that everything passed):
+
+```json
+{
+  "form": "460",
+  "outcome": "Accepted",
+  "stages": {
+    "schema_validation":  { "outcome": "LocalSchemaValid",     "ok": true,  ... },
+    "auth":               { "outcome": "AuthOK",               "ok": true },
+    "initial_validation": { "outcome": "InitialValidationOK",  "ok": true,  ... },
+    "processing":         { "outcome": "Accepted",             "ok": true,  ... }
+  }
+}
+```
+
+Possible top-level outcomes: `Accepted`, `LocalSchemaValid` (only with `--validate-only`), `LocalSchemaInvalid`, `ConfigError`, `AuthFailed`, `RejectedAtInitialValidation`, `RejectedForBusinessRuleViolation`, `SystemError`, `Stuck`. Failing stages include `error` (one-line summary), `kind` (machine-readable type), and `remedy` (an actionable hint).
 
 ---
 
