@@ -65,9 +65,9 @@ Possible top-level outcomes: `Accepted`, `LocalSchemaValid` (only with `--valida
 
 ## Where credentials come from
 
-Your CARS-team contact provides three values. If they gave you a Postman collection, all three live inside the bearer-token request — the tenant ID is the UUID embedded in the token URL; the client ID and client secret are entries in the `x-www-form-urlencoded` body:
+Your CARS-team contact provides three values. If they gave you a Postman collection, all three live inside the **Bearer Token** request in the **CARS Bearer Token** collection — open that request and click the **Body** tab. The tenant ID is the UUID embedded in the token URL at the top; the client ID and client secret are entries in the `x-www-form-urlencoded` body:
 
-![Where to find CARS_TENANT_ID, CARS_CLIENT_ID, and CARS_CLIENT_SECRET in the Postman bearer-token request](images/cars-cli-env-vars-postman.png)
+![Postman Bearer Token request, Body tab — showing where CARS_TENANT_ID, CARS_CLIENT_ID, and CARS_CLIENT_SECRET come from](images/cars-cli-env-vars-postman.png)
 
 Paste these three values into the `credentials.env` file created in step 2 of the quickstart.
 
