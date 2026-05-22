@@ -33,7 +33,7 @@ CARS_TENANT_ID=<your-tenant>
 CARS_CLIENT_ID=<your-client-id>
 CARS_CLIENT_SECRET=<your-secret>
 "@ | Set-Content "$env:USERPROFILE\.config\cars-api\credentials.env"
-# (Edit the file to plug in real values)
+# (Edit the file to plug in real values — see "Where credentials come from" below)
 
 # 3. Submit a payload — replace 460, your_payload.json, and the filer ID
 cd "$env:USERPROFILE\Documents"   # or wherever your payload JSON lives
@@ -60,6 +60,16 @@ You'll get back a single JSON object on stdout. The top-level `outcome` field is
 ```
 
 Possible top-level outcomes: `Accepted`, `LocalSchemaValid` (only with `--validate-only`), `LocalSchemaInvalid`, `ConfigError`, `AuthFailed`, `RejectedAtInitialValidation`, `RejectedForBusinessRuleViolation`, `SystemError`, `Stuck`. Failing stages include `error` (one-line summary), `kind` (machine-readable type), and `remedy` (an actionable hint).
+
+---
+
+## Where credentials come from
+
+Your CARS-team contact provides three values. If they gave you a Postman collection, all three live inside the bearer-token request — the tenant ID is the UUID embedded in the token URL; the client ID and client secret are entries in the `x-www-form-urlencoded` body:
+
+![Where to find CARS_TENANT_ID, CARS_CLIENT_ID, and CARS_CLIENT_SECRET in the Postman bearer-token request](images/cars-cli-env-vars-postman.png)
+
+Paste these three values into the `credentials.env` file created in step 2 of the quickstart.
 
 ---
 
