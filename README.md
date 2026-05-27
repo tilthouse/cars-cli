@@ -63,14 +63,14 @@ Possible top-level outcomes: `Accepted`, `LocalSchemaValid` (only with `--valida
 
 Every run also writes a complete record of the submission to disk at `./cars_check_runs/cars_check_<form>_<timestamp>.json` — relative to whatever directory you ran the `docker run` command in. The file contains the full request and response for every CARS HTTP call, every status poll, and per-stage timing, regardless of what you saw on stdout. After each run you'll see a one-line stderr message telling you where the file went; inside Docker, a second line translates the in-container path to where the file lives on your host. Pass `--no-output-file` to suppress.
 
-When a submission rejects and you want everything on stdout too, add `-v` (or `--verbose`):
+When a submission rejects and you want everything on stdout too, add `--verbose`:
 
 ```powershell
 docker run --rm `
   -v "${env:USERPROFILE}\.config\cars-api:/root/.config/cars-api:ro" `
   -v "${PWD}:/work" `
   ghcr.io/tilthouse/cars_update/cars-cli:latest `
-  /app/bin/cars_check 460 /work/your_payload.json --filer YOUR_FILER_ID -v
+  /app/bin/cars_check 460 /work/your_payload.json --filer YOUR_FILER_ID --verbose
 ```
 
 That single flag adds the raw HTTP request + response for the CARS submit and the final status poll, every poll's history, the (redacted) Azure AD token exchange, per-stage timing, and a `[cars_check]` progress stream on stderr — convenient when you want to pipe straight into `jq`. The full guide inside the image (see below) documents granular flags for each of those if you want only one slice.
